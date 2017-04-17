@@ -5,15 +5,15 @@ def main():
     """Plays the Game"""
     os.system('clear')
     player_name = input("Please enter your name: ")
+    p1 = HumanPlayer(player_name, BlackjackHand())
 
     print("\nWelcome to Bull City Bets - an exclusive Blackjack Casino!\n\n")
 
     while True:
-        p1 = HumanPlayer(player_name, BlackjackHand())
         d1 = Dealer("dealer", BlackjackHand())
         deck = Deck()
         g = Game(p1, d1, deck)
-        print("Ante Up!")
+        print("\nAnte Up!")
         p1.place_bet()
         g.add_bet()
         print("Total Pot: {} Player Purse: {}".format(g.pot, p1.purse))
@@ -24,8 +24,7 @@ def main():
 
         g.print_results()
 
-        if not input("play again? "):
-            return
+        g.play_again()
 
 
 if __name__ == "__main__":

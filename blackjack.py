@@ -42,12 +42,10 @@ class Deck:
     # def __str__(self):
     #     return __repr__()
 
-
     def shuffle_deck(self):
         """shuffles the deck"""
         random.shuffle(self.deck)
         # return self.deck
-
 
     def deal_card(self):
         """deals one card from the deck"""
@@ -55,6 +53,7 @@ class Deck:
             return self.deck.pop(0)
         else:
             raise Error
+
 
 class BlackjackHand:
     def __init__(self):
@@ -84,6 +83,9 @@ class BlackjackHand:
             ace_count -= 1
         return score
 
+    def new_hand(self):
+        self.hand = []
+
 
 class Game:
     def __init__(self, player, dealer, deck):
@@ -91,6 +93,7 @@ class Game:
         self.dealer = dealer
         self.game_deck = Deck()
         self.game_deck.shuffle_deck()
+        self.pot = 0
 
         for _ in range(2):
             print(self.game_deck)
@@ -110,8 +113,7 @@ class Game:
         return "This is a Game between {} and {}".format(self.player.name, self.dealer.name)
 
     def game_over(self):
-        #what are the conditions?  player bust, player stand, dealer bust, dealer stand
-
+        # what are the conditions?  player bust, player stand, dealer bust, dealer stand
         return (self.player.hand.compute_score() > 21 or
                 self.dealer.hand.compute_score() > 21 or
                 self.dealer.stood)
@@ -119,6 +121,7 @@ class Game:
     def play_again(self):
         play_again = input("\nDo you want to play again? [ Y / anything else to quit]   ").upper()
         if play_again[0] == 'Y':
+            self.pot = 0
             return True
         else:
             exit()
@@ -128,17 +131,25 @@ class Game:
         print("dealer hand", self.dealer.hand, self.dealer.hand.compute_score())
         if self.player.hand.compute_score() > 21:
             print("player busts")
+            self.player.hand.new_hand()
             return
         if self.dealer.hand.compute_score() > 21:
             print("dealer busts")
+            self.player.blackjack_bet(self.pot)
+            self.player.hand.new_hand()
             return
         if self.player.hand.compute_score() > self.dealer.hand.compute_score():
             print("player wins")
+            self.player.winning_bet(self.pot)
+            self.player.hand.new_hand()
             return
         if self.player.hand.compute_score() == self.dealer.hand.compute_score():
             print("push")
+            self.player.push()
+            self.player.hand.new_hand()
             return
         print("dealer wins")
+        self.player.hand.new_hand()
 
     def check_initial_blackjack(self):
         s1 = self.player.hand.compute_score()
@@ -160,9 +171,6 @@ class Player:
 
     def take_card(self, card):
         self.hand.add_card_to_hand(card)
-
-    def new_hand(self, blkjkh):
-        self.hand = blkjkh
 
 
 class Dealer(Player):
@@ -198,16 +206,3 @@ class HumanPlayer(Player):
 
     def push(self):
         self.purse += self.bet
-# 
-# class Pot:
-#     def __init__(self):
-#         self.pot = 0
-#         self.purse = 100
-#
-#     def __repr__(self):
-#         return "Pot() {} {}".format(self.pot, self.purse)
-#
-#     def __str__(self):
-#         return __repr__()
-#
-#

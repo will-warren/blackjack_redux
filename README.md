@@ -1,14 +1,13 @@
 # blackjack_redux
 
-A refactoring and revision of an early exercise.
+A refactoring and revision of an early exercise:
 
 Create a game of Blackjack that one person plays on the command line against a computer dealer, with the following rules:
 
 The only valid moves are hit and stand.
 Allow the player to play as many turns as they want.
 The dealer will stand at 17 (soft or hard)
-The dealer uses one deck and reshuffles after each round.
-[OPTIONAL] The game should start the player with $100 and bets are $10. A player's turn is over when they are out of money
+The dealer uses one deck and reshuffles after each round. The game should start the player with $100 and bets are $10. A player's turn is over when they are out of money
 
 For my portfolio and contact information, please visit me: [Will Warren](https://willwile4.github.io)
 

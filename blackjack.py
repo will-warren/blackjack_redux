@@ -189,7 +189,6 @@ class HumanPlayer(Player):
         self.stood = input("would you like to hit or stand? h/s ") == "h"
         return self.stood
 
-
     def place_bet(self):
         if self.purse >= 10:
             self.purse -= self.bet
